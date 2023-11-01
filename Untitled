@@ -1,0 +1,43 @@
+curl -X POST "https://accounts.spotify.com/api/token" \
+     -H "Content-Type: application/x-www-form-urlencoded" \
+     -d "grant_type=client_credentials&client_id=33bf8ff118484cc198c6a96644dcf4ab&client_secret=efb1d6d177154ca4860f7b450380db27"
+
+AccessToken : BQAWKDzZS4n704zXF6fQyqB4rAm1QApxjZ9263VbFYhGSgG-uyccGqbJVScuwk4i-hPlWrT9kt3_ebKHeHP7X5C9k--UuI5BAOXkfVaAtaUUac-A9es
+
+     curl "https://api.spotify.com/v1/artists/4Z8W4fKeB5YxbusRsdQVPb" \
+     -H "Authorization: Bearer BQAWKDzZS4n704zXF6fQyqB4rAm1QApxjZ9263VbFYhGSgG-uyccGqbJVScuwk4i-hPlWrT9kt3_ebKHeHP7X5C9k--UuI5BAOXkfVaAtaUUac-A9es"
+
+stepzen import \
+        curl "https://api.spotify.com/v1/recommendations?seed_genres=pop" \
+        --header "Authorization: Bearer BQAWKDzZS4n704zXF6fQyqB4rAm1QApxjZ9263VbFYhGSgG-uyccGqbJVScuwk4i-hPlWrT9kt3_ebKHeHP7X5C9k--UuI5BAOXkfVaAtaUUac-A9es" \
+        --query-name "recommendations" \
+        --query-type "Recommendation" \
+        --name "recommendations" \
+        --prefix "Recommend"
+
+stepzen import \
+        curl -X POST "https://accounts.spotify.com/api/token" \
+        --header "Content-Type: application/x-www-form-urlencoded" \
+        --data "grant_type=client_credentials&client_id=33bf8ff118484cc198c6a96644dcf4ab&client_secret=efb1d6d177154ca4860f7b450380db27" \
+        --query-name "getToken" \
+        --query-type "TokenResponse" \
+        --name "auth"
+
+stepzen import \
+        curl 'https://api.spotify.com/v1/search?q=nf&type=track' \
+        --header "Authorization: Bearer BQAWKDzZS4n704zXF6fQyqB4rAm1QApxjZ9263VbFYhGSgG-uyccGqbJVScuwk4i-hPlWrT9kt3_ebKHeHP7X5C9k--UuI5BAOXkfVaAtaUUac-A9es" \
+        --query-name "search" \
+        --query-type "SearchResult" \
+        --name "search" \
+        --prefix "Search"
+
+stepzen import \
+        curl "https://api.spotify.com/v1/tracks/11dFghVXANMlKmJXsNCbNl" \
+        --header "Authorization: Bearer BQAWKDzZS4n704zXF6fQyqB4rAm1QApxjZ9263VbFYhGSgG-uyccGqbJVScuwk4i-hPlWrT9kt3_ebKHeHP7X5C9k--UuI5BAOXkfVaAtaUUac-A9es" \
+        --path-params "/v1/tracks/\$trackId"  \
+        --query-name "getTrack" \
+        --query-type "TrackResponse" \
+        --name "track" \
+        --prefix "Track"
+
+postgres://Blank-code-bit:qF6ieBWrpdI4@ep-morning-glitter-57757812.ap-southeast-1.aws.neon.tech/neondb
